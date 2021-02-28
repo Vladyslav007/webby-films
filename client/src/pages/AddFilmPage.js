@@ -64,7 +64,7 @@ export const AddFilmPage = () => {
 
 
     return (
-        <div className="row" style={{marginTop: '2rem'}}>
+        <div className="row indent">
             <div className="col s6 offset-s3">
                 <div className="card blue-grey darken-1">
                     <div className="card-content white-text">

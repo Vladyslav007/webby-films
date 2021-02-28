@@ -1,8 +1,13 @@
 import React from 'react'
 
 export const FilmsList = ({ films, jumpHandler }) => {
+
+    if (!films.length) {
+        return <p className="center indent">Фильмов пока нет</p>
+    }
+
     return (
-        <div style={{marginTop: '2rem'}}>
+        <div className="indent">
             <div className="row">
                 { films.map( film => {
                     return (

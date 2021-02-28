@@ -3,11 +3,12 @@ import {useHistory} from 'react-router-dom'
 import {useHttp} from "../hooks/http.hook";
 import {FilmsList} from "../components/FilmsList";
 import {useMessage} from "../hooks/message.hook";
+import {Preloader} from "../components/Preloader";
 
 export const FilmsPage = () => {
     const history = useHistory()
     const [films, setFilms] = useState([])
-    const {request} = useHttp()
+    const {request, loading} = useHttp()
     const message = useMessage()
 
     const fetchFilms = useCallback(async () => {
@@ -28,7 +29,6 @@ export const FilmsPage = () => {
     }
 
     films.sort(sortByField('title'))
-
 
     const addFilmHandler = async (title, releaseYear, stars, format) => {
         try {
@@ -85,10 +85,14 @@ export const FilmsPage = () => {
         fetchFilms()
     }, [fetchFilms])
 
+    if (loading) {
+        return <Preloader />
+    }
+
     return (
         <>
             <div className="row">
-                <button style={{marginTop: '2rem'}} className="btn" onClick={openUpload}>Импорт</button>
+                <button className="btn indent" onClick={openUpload}>Импорт</button>
                 <input id="load" onChange={uploadFile} style={{display: 'none'}} type="file" name="list"
                        accept=".txt"/>
             </div>

@@ -3,18 +3,18 @@ import {useHttp} from "../hooks/http.hook";
 import {useParams, useHistory} from "react-router-dom";
 import {ResultFilmsList} from "../components/ResultFilmsList";
 import {FilmsContext} from "../context/FilmsContext";
+import {Preloader} from "../components/Preloader";
 
 export const SearchResultPage = () => {
     const context = useContext(FilmsContext)
     const history = useHistory()
     const [films, setFilms] = useState([])
-    const {request} = useHttp()
+    const {request, loading} = useHttp()
     const queryStr = useParams().queryStr
 
     const fetchFilms = useCallback(async () => {
         try {
             const fetched = await request(`/api/films/search/${context.queryString}`, 'GET')
-            console.log(fetched)
             setFilms(fetched)
         } catch (e) {
 
@@ -27,7 +27,11 @@ export const SearchResultPage = () => {
     }, [fetchFilms, context.queryString])
 
     const jumpHandler = (event) => {
-        history.push(`detail/${event.target.id}`)
+        history.push(`/detail/${event.target.id}`)
+    }
+
+    if (loading) {
+        return <Preloader />
     }
 
     return (

@@ -8,3 +8,7 @@ input::placeholder {
 .select-dropdown.dropdown-trigger {
     color: #fff;
 }
+
+.indent {
+    margin-top: 2rem;
+}

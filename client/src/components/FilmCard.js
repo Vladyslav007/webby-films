@@ -2,7 +2,7 @@ import React from 'react'
 
 export const FilmCard = ({film, deleteFilmHandler}) => {
     return (
-        <div style={{marginTop: '2rem'}}>
+        <div className="indent">
             <div className="row">
                 <div className="col s12 m12">
                     <div className="card blue-grey darken-1">

@@ -1,10 +1,13 @@
 import React from 'react'
-import {useHistory} from "react-router-dom";
 
 export const ResultFilmsList = ({ films, jumpHandler }) => {
-    const history = useHistory()
+
+    if (!films.length) {
+        return <p className="center indent">По данному запросу фильмов не найдено</p>
+    }
+
     return (
-        <div style={{marginTop: '2rem'}}>
+        <div className="indent">
             <div className="row">
                 { films.map( film => {
                     return (
@@ -17,7 +20,7 @@ export const ResultFilmsList = ({ films, jumpHandler }) => {
                                     <p>Актеры: {film.stars.join(',')}</p>
                                 </div>
                                 <div className="card-action">
-                                    <button onClick={() => history.push(`/detail/${film._id}`)} id={film._id} className="btn">Открыть</button>
+                                    <button onClick={jumpHandler} id={film._id} className="btn">Открыть</button>
                                 </div>
                             </div>
                         </div>

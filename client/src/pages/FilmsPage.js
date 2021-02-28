@@ -23,12 +23,18 @@ export const FilmsPage = () => {
         history.push(`detail/${event.target.id}`)
     }
 
+    const sortByField = (field) => {
+        return (a, b) => a[field].toLowerCase() > b[field].toLowerCase() ? 1 : -1;
+    }
+
+    films.sort(sortByField('title'))
+
 
     const addFilmHandler = async (title, releaseYear, stars, format) => {
         try {
             await request('/api/films/add', 'POST', {title, releaseYear, format, stars})
         } catch (e) {
-
+            message(`Фильм ${title} уже сущуствует`)
         }
     }
 
@@ -41,7 +47,7 @@ export const FilmsPage = () => {
             reader.readAsText(selectedFile)
         }
         reader.onload = () => {
-            let textObj = reader.result.split('\r\n\r\n')
+            let textObj = reader.result.split('\n\n')
             let newObj = []
             for (let i = 0; i < textObj.length; i++) {
                 if (textObj[i] !== '') {
@@ -58,16 +64,15 @@ export const FilmsPage = () => {
                         releaseYear = newObj[i][j].split(': ')[1]
                     }
                     if (newObj[i][j].split(':')[0] === 'Format') {
-                        stars = newObj[i][j].split(': ')[1]
+                        format = newObj[i][j].split(': ')[1]
                     }
                     if (newObj[i][j].split(':')[0] === 'Stars') {
-                        format = newObj[i][j].split(': ')[1].split(',')
+                        stars = newObj[i][j].split(': ')[1].split(', ')
                     }
                 }
-                addFilmHandler( title, releaseYear, format, stars )
+                addFilmHandler( title, releaseYear, stars, format )
             }
             message('Фильмы успешно импортированы')
-            history.push('/')
             fetchFilms()
         }
     }

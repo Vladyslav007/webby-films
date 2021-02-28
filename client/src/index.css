@@ -1,1 +1,10 @@
 @import "~materialize-css/dist/css/materialize.min.css";
+input {
+    color: #fff;
+}
+input::placeholder {
+    color: #fff;
+}
+.select-dropdown.dropdown-trigger {
+    color: #fff;
+}

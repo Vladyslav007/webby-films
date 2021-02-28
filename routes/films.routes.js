@@ -7,6 +7,13 @@ router.post('/add', async (req, res) => {
     try {
 
         const { title, releaseYear, stars, format } = req.body
+
+        const invalidFilm  = await Film.findOne({title, releaseYear, stars, format})
+
+        if (invalidFilm) {
+            return res.status(400).json({ message: 'Такой фильм уже сущуствует' })
+        }
+
         const film = new Film({ title, releaseYear, stars, format })
 
         await film.save()
@@ -20,9 +27,9 @@ router.post('/add', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        await Film.find({}, null, {sort: {title: 1}}, (err, films) => {
-            res.send(films)
-        })
+        const films = await Film.find()
+        res.json(films)
+
 
     } catch (e) {
         res.status(500).json({message: 'Что-то пошло не так, попробуйте снова'})
@@ -59,7 +66,7 @@ router.get('/search/:queryStr', async (req, res) => {
                 {"stars": new RegExp(req.params.queryStr, 'i')}]
         },
             (err, films) => {
-            res.send(films);
+            res.json(films);
         })
 
     } catch (e) {

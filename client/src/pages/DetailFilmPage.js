@@ -3,11 +3,12 @@ import {useParams, useHistory} from 'react-router-dom'
 import {useHttp} from "../hooks/http.hook";
 import {FilmCard} from "../components/FilmCard";
 import {useMessage} from "../hooks/message.hook";
+import {Preloader} from "../components/Preloader";
 
 export const DetailFilmPage = () => {
     const history = useHistory()
     const message = useMessage()
-    const {request} = useHttp()
+    const {request, loading} = useHttp()
     const [film, setFilm] = useState(null)
     const filmId = useParams().id
 
@@ -18,7 +19,7 @@ export const DetailFilmPage = () => {
         } catch (e) {
             
         }
-    },[request])
+    },[request, filmId])
 
     const deleteFilmHandler = async () => {
         try {
@@ -33,6 +34,11 @@ export const DetailFilmPage = () => {
     useEffect(() => {
         getFilm()
     },[getFilm])
+
+    if (loading) {
+        return <Preloader />
+    }
+
     return (
         <>
             {film && <FilmCard film={film} deleteFilmHandler={deleteFilmHandler} />}

@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useHistory} from 'react-router-dom'
 import {useHttp} from "../hooks/http.hook";
 import {FilmsList} from "../components/FilmsList";

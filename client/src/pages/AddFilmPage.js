@@ -15,7 +15,7 @@ export const AddFilmPage = () => {
     const updateSelect = () => {
         let elems = document.querySelectorAll('select')
         let options = document.querySelectorAll('option')
-        let instances = window.M.FormSelect.init(elems, options)
+        window.M.FormSelect.init(elems, options)
     }
 
     useEffect(() => {
